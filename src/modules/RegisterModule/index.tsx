@@ -10,9 +10,11 @@ import {
 } from '@/components/ui/card'
 import { useAuthContext } from '@/components/contexts/AuthContext'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const RegisterPage: React.FC = () => {
   const { customFetch } = useAuthContext()
+  const router = useRouter()
 
   const [formData, setFormData] = useState<RegistrationFormData>({
     email: '',
@@ -39,7 +41,12 @@ const RegisterPage: React.FC = () => {
         method: 'POST',
         body: JSON.stringify(formData),
       }
-    ).then((response) => toast(response.message))
+    ).then((response) => {
+      toast(response.message)
+      if (response.message === 'User registered successfully!') {
+        router.push('/login')
+      }
+    })
   }
 
   return (

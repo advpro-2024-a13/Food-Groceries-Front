@@ -38,13 +38,8 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
 
     const result = await rawResult.json()
 
-    if (result.code === 401) {
+    if (!(result.code === 200)) {
       localStorage.removeItem('token')
-    }
-
-    if (!result.accessToken) {
-      toast.error('Authentication failed')
-      throw new Error('Authentication failed')
     }
 
     return result
@@ -70,7 +65,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     )
 
     if (response.accessToken) {
-      localStorage.setItem('token', response.email)
+      localStorage.setItem('token', response.accessToken)
       setIsAuthenticated(true)
       router.push('/')
     } else {
