@@ -36,7 +36,7 @@ const LoginPage: React.FC = () => {
     if (isAuthenticated) {
       router.push('/')
     }
-  }, [])
+  }, [isAuthenticated, router])
 
   return (
     <main className="py-28 flex justify-center items-center">
