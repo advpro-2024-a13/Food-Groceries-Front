@@ -52,7 +52,6 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     email: string
     password: string
   }) {
-    setIsAuthenticated(true)
     const response = await customFetch<Pengguna>(
       'https://a13autehnticate-6yfvrprlfa-uc.a.run.app/api/auth/signin',
       {
