@@ -8,12 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { useAuthContext } from '@/components/contexts/AuthContext'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 
 const RegisterPage: React.FC = () => {
-  const { customFetch } = useAuthContext()
   const router = useRouter()
 
   const [formData, setFormData] = useState<RegistrationFormData>({
@@ -35,18 +33,38 @@ const RegisterPage: React.FC = () => {
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    customFetch(
-      'https://a13autehnticate-6yfvrprlfa-uc.a.run.app/api/auth/signup',
-      {
-        method: 'POST',
-        body: JSON.stringify(formData),
-      }
-    ).then((response) => {
-      toast(response.message)
-      if (response.message === 'User registered successfully!') {
-        router.push('/login')
-      }
+    fetch('https://a13autehnticate-6yfvrprlfa-uc.a.run.app/api/auth/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
     })
+      .then((response) => response.json())
+      .then((data) => {
+        toast(data.message)
+        if (data.message === 'User registered successfully!') {
+          fetch(
+            'https://a13heymartbkbhr-6yfvrprlfa-uc.a.run.app/balance/api/addNewBalance',
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ ownerId: data.user.id.toString() }),
+            }
+          )
+            .then((balanceResponse) => balanceResponse.json())
+            .then((balanceData) => {
+              console.log(balanceData)
+            })
+            .catch((error) => {
+              console.error(error)
+            })
+
+          router.push('/login')
+        }
+      })
   }
 
   return (
