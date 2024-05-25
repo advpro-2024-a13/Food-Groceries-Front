@@ -38,13 +38,8 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
 
     const result = await rawResult.json()
 
-    if (result.code === 401) {
+    if (!(result.code === 200)) {
       localStorage.removeItem('token')
-    }
-
-    if (!result.accessToken) {
-      toast.error('Authentication failed')
-      throw new Error('Authentication failed')
     }
 
     return result
@@ -57,7 +52,6 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     email: string
     password: string
   }) {
-    setIsAuthenticated(true)
     const response = await customFetch<Pengguna>(
       'https://a13autehnticate-6yfvrprlfa-uc.a.run.app/api/auth/signin',
       {
@@ -70,7 +64,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     )
 
     if (response.accessToken) {
-      localStorage.setItem('token', response.email)
+      localStorage.setItem('Pengguna', JSON.stringify(response))
       setIsAuthenticated(true)
       router.push('/')
     } else {

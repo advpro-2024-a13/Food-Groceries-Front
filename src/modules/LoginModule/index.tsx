@@ -57,6 +57,7 @@ const LoginPage: React.FC = () => {
                 value={formData.email}
                 onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded"
+                required
               />
             </div>
             <div className="mb-6">
@@ -70,6 +71,7 @@ const LoginPage: React.FC = () => {
                 value={formData.password}
                 onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded"
+                required
               />
             </div>
             <CardFooter className="flex flex-col items-center">

@@ -7,7 +7,7 @@ import {
   ThemeType,
 } from './interface'
 
-const ThemeContext = createContext({} as ThemeContextInterface) // TODO: Declare interface of contextValue
+const ThemeContext = createContext({} as ThemeContextInterface)
 
 export const useThemeContext = () => useContext(ThemeContext)
 
