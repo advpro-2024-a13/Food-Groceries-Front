@@ -86,6 +86,7 @@ const RegisterPage: React.FC = () => {
                 value={formData.email}
                 onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded"
+                required
               />
             </div>
             <div className="mb-4">
@@ -99,6 +100,7 @@ const RegisterPage: React.FC = () => {
                 value={formData.password}
                 onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded"
+                required
               />
             </div>
             <div className="mb-6">
@@ -112,6 +114,7 @@ const RegisterPage: React.FC = () => {
                 value={formData.firstName}
                 onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded"
+                required
               />
             </div>
             <div className="mb-6">
@@ -125,6 +128,7 @@ const RegisterPage: React.FC = () => {
                 value={formData.lastName}
                 onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded"
+                required
               />
             </div>
             <div className="mb-6">
@@ -137,9 +141,11 @@ const RegisterPage: React.FC = () => {
                 value={formData.role}
                 onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded"
+                required
               >
-                <option value="ROLE_PEMBELI">Pembeli</option>
-                <option value="ROLE_PENGELOLA">Pengelola</option>
+                <option value="">Select Role</option>
+                <option value="pembeli">Pembeli</option>
+                <option value="pengelola">Pengelola</option>
               </select>
             </div>
             <CardFooter className="flex flex-col items-center mt-4">

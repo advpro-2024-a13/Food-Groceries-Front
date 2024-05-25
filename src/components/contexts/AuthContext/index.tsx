@@ -64,7 +64,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     )
 
     if (response.accessToken) {
-      localStorage.setItem('token', response.accessToken)
+      localStorage.setItem('Pengguna', JSON.stringify(response))
       setIsAuthenticated(true)
       router.push('/')
     } else {
