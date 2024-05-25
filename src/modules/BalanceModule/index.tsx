@@ -7,7 +7,15 @@ const BalancePage: React.FC = () => {
   const [balance, setBalance] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [amount, setAmount] = useState<number | null>(null)
-  const pengguna = JSON.parse(localStorage.getItem('Pengguna') || '{}')
+  const [pengguna, setPengguna] = useState<any>({})
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const localPengguna = JSON.parse(localStorage.getItem('Pengguna') || '{}')
+      setPengguna(localPengguna)
+    }
+  }, [])
+
   const role = pengguna.role
 
   const fetchBalance: () => void = useCallback(() => {
