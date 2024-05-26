@@ -50,7 +50,7 @@ const RatingPage: React.FC = () => {
       stars.push(
         <FaStar
           key={i}
-          size={30} // Perbesar ukuran bintang
+          size={30}
           color={i <= rating ? 'gold' : 'gray'}
           onClick={isEditing ? () => handleEditRating(i) : undefined}
           style={{

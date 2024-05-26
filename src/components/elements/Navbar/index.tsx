@@ -13,12 +13,16 @@ import { Label } from '@/components/ui/label'
 import { useThemeContext } from '@/components/contexts/ThemeContext'
 import { Button } from '@/components/ui/button'
 import { useAuthContext } from '@/components/contexts/AuthContext'
+import { Pengguna } from '@/components/interface/database'
 
 const Navbar = () => {
   const { theme, handleTheme } = useThemeContext()
   const { isAuthenticated, logout } = useAuthContext()
-  const localPengguna = JSON.parse(localStorage.getItem('Pengguna') || '{}')
-  const role = localPengguna.role
+  let localPengguna: Pengguna | Record<string, never> = {};
+  if (typeof window !== 'undefined') {
+    localPengguna = JSON.parse(localStorage.getItem('Pengguna') || '{}')
+  }
+  const role = 'role' in localPengguna ? localPengguna.role : '';
 
   const daftarNavList = isAuthenticated
     ? role === 'ROLE_PEMBELI'

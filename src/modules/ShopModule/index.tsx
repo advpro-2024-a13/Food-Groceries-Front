@@ -24,7 +24,7 @@ const customFetch = async (url: string, options: RequestInit) => {
   if (typeof window !== 'undefined') {
     token = localStorage.getItem('token');
   }
-  
+
   const headers = {
     ...options.headers,
     ...(token && { Authorization: `Bearer ${token}` }),

@@ -10,6 +10,7 @@ import {
   CardDescription,
   CardContent,
 } from '@/components/ui/card'
+import { Pengguna } from '@/components/interface/database';
 
 interface Supermarket {
   supermarketId: number
@@ -58,9 +59,11 @@ const SupermarketDetails = () => {
 
 
   useEffect(() => {
+    let localPengguna: Pengguna | Record<string, never> = {};
     if (typeof window !== 'undefined') {
-      const localPengguna = JSON.parse(localStorage.getItem('Pengguna') || '{}')
-      const ownerId = localPengguna.id
+      localPengguna = JSON.parse(localStorage.getItem('Pengguna') || '{}')
+    }
+    const ownerId = 'id' in localPengguna ? localPengguna.id : '';
     const fetchSupermarket = async () => {
       try {
         const supermarketData: Supermarket = await customFetch(
@@ -83,7 +86,6 @@ const SupermarketDetails = () => {
       }
     }
     fetchSupermarket()
-  }
   }, [])
 
   const handleAddProduct = () => {
