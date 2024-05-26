@@ -5,7 +5,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu'
-import { ShoppingCart, HomeIcon, Wallet } from 'lucide-react'
+import { ShoppingCart, HomeIcon, Wallet, Star } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { Switch } from '@/components/ui/switch'
@@ -21,11 +21,6 @@ const Navbar = () => {
   const daftarNavList = isAuthenticated
     ? [
         {
-          url: '/',
-          name: 'Home',
-          icon: HomeIcon,
-        },
-        {
           url: '/shop',
           name: 'Shop',
           icon: ShoppingCart,
@@ -34,6 +29,16 @@ const Navbar = () => {
           url: '/balance',
           name: 'Balance',
           icon: Wallet,
+        },
+        {
+          url: '/rating',
+          name: 'My Rating',
+          icon: Star,
+        },
+        {
+          url: '/',
+          name: 'Home',
+          icon: HomeIcon,
         },
       ]
     : [
