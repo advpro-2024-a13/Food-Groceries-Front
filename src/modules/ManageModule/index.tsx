@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useRouter } from 'next/navigation'
 import { useState, useEffect, CSSProperties } from 'react'
 import { toast } from 'react-toastify'
@@ -29,7 +30,10 @@ interface Product {
 }
 
 const customFetch = async (url: string, options: RequestInit) => {
-  const token = localStorage.getItem('token')
+  let token;
+  if (typeof window !== 'undefined') {
+    token = localStorage.getItem('token');
+  }
   const headers = {
     ...options.headers,
     ...(token && { Authorization: `Bearer ${token}` }),
@@ -51,11 +55,12 @@ const SupermarketDetails = () => {
   const [supermarket, setSupermarket] = useState<Supermarket | null>(null)
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
-  const localPengguna = JSON.parse(localStorage.getItem('Pengguna') || '{}')
-  const ownerId = localPengguna.id
-  const token = localPengguna.accessToken
+
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const localPengguna = JSON.parse(localStorage.getItem('Pengguna') || '{}')
+      const ownerId = localPengguna.id
     const fetchSupermarket = async () => {
       try {
         const supermarketData: Supermarket = await customFetch(
@@ -78,6 +83,7 @@ const SupermarketDetails = () => {
       }
     }
     fetchSupermarket()
+  }
   }, [])
 
   const handleAddProduct = () => {
@@ -89,17 +95,20 @@ const SupermarketDetails = () => {
   }
 
   const handleDeleteProduct = async (productId: string) => {
+    let token;
+    if (typeof window !== 'undefined') {
+      token = localStorage.getItem('token');
+    }
     try {
       await customFetch(
         `https://a13heymartsmpr-tvz2de5qsa-uc.a.run.app/product/delete/${productId}`,
         {
           method: 'DELETE',
           headers: {
-            Authorization: `Bearer ${token}`,
+            ...(token && { Authorization: `Bearer ${token}` }),
           },
         }
       )
-      // Remove the deleted product from the state
       setProducts(products.filter((product) => product.productId !== productId))
       toast.success('Product deleted successfully!')
       router.push('/manage')

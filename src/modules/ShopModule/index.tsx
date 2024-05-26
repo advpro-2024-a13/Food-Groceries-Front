@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client'
 import React, { useEffect, useState, CSSProperties } from 'react'
 import { toast } from 'react-toastify'
@@ -19,7 +20,11 @@ interface Supermarket {
 }
 
 const customFetch = async (url: string, options: RequestInit) => {
-  const token = localStorage.getItem('token')
+  let token;
+  if (typeof window !== 'undefined') {
+    token = localStorage.getItem('token');
+  }
+  
   const headers = {
     ...options.headers,
     ...(token && { Authorization: `Bearer ${token}` }),
