@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/navigation-menu'
 import { ShoppingCart, HomeIcon, Wallet, Star, Store, Clock } from 'lucide-react'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import { useThemeContext } from '@/components/contexts/ThemeContext'
@@ -17,45 +17,58 @@ import { useAuthContext } from '@/components/contexts/AuthContext'
 const Navbar = () => {
   const { theme, handleTheme } = useThemeContext()
   const { isAuthenticated, logout } = useAuthContext()
+  const localPengguna = JSON.parse(localStorage.getItem('Pengguna') || '{}')
+  const role = localPengguna.role
 
   const daftarNavList = isAuthenticated
-    ? [
-        {
-          url:'/manageSupermarket',
-          name:'Manage Supermarket',
-          icon: Store,
-        },
-        {
-          url: '/shop',
-          name: 'Shop',
-          icon: Store,
-        },
-        {
-          url: '/keranjangbelanja',
-          name: 'Cart',
-          icon: ShoppingCart,
-        },
-        {
-          url: '/balance',
-          name: 'Balance',
-          icon: Wallet,
-        },
-        {
-          url: '/rating',
-          name: 'My Rating',
-          icon: Star,
-        },
-        {
-          url: '/history',
-          name: 'History',
-          icon: Clock,
-        },
-        {
-          url: '/',
-          name: 'Home',
-          icon: HomeIcon,
-        },
-      ]
+    ? role === 'ROLE_PEMBELI'
+      ? [
+          {
+            url: '/shop',
+            name: 'Shop',
+            icon: ShoppingCart,
+          },
+          {
+            url: '/balance',
+            name: 'Balance',
+            icon: Wallet,
+          },
+          {
+            url: '/rating',
+            name: 'My Rating',
+            icon: Star,
+          },
+          {
+            url: '/history',
+            name: 'History',
+            icon: Clock,
+          },
+          {
+            url: '/',
+            name: 'Home',
+            icon: HomeIcon,
+          },
+        ]
+      : role === 'ROLE_PENGELOLA'
+        ? [
+            {
+              url: '/',
+              name: 'Home',
+              icon: HomeIcon,
+            },
+            {
+              url: '/manage',
+              name: 'Manage Supermarket',
+              icon: ShoppingCart,
+            },
+          ]
+        : [
+            {
+              url: '/',
+              name: 'Home',
+              icon: HomeIcon,
+            },
+          ]
     : [
         {
           url: '/',
