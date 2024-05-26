@@ -1,16 +1,15 @@
-'use client'
 import React, { useEffect, useState, CSSProperties } from 'react'
 import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css' // Ensure this is imported to apply the styles for toast notifications
+import 'react-toastify/dist/ReactToastify.css'
+import { useNavigate } from 'react-router-dom'
 
-// Define the type for the supermarket data
 interface Supermarket {
   supermarketId: number
   name: string
-  ownerId: number
+  supermarketImage: string
+  supermarketDescription: string
 }
 
-// Define the customFetch function
 const customFetch = async (url: string, options: RequestInit) => {
   const token = localStorage.getItem('token')
   const headers = {
@@ -31,8 +30,11 @@ const customFetch = async (url: string, options: RequestInit) => {
 
 const ShopModule = () => {
   const [supermarkets, setSupermarkets] = useState<Supermarket[]>([])
+  const [loading, setLoading] = useState(true) // Add loading state
+  const [searchQuery, setSearchQuery] = useState('')
+  const navigate = useNavigate()
 
-  const handleRegister = async (e?: React.FormEvent<HTMLFormElement>) => {
+  const handleSupermarket = async (e?: React.FormEvent<HTMLFormElement>) => {
     if (e) e.preventDefault()
     try {
       const data: Supermarket[] = await customFetch(
@@ -40,6 +42,7 @@ const ShopModule = () => {
         { method: 'GET' }
       )
       setSupermarkets(data)
+      setLoading(false) // Update loading state to false after data is fetched
       toast('Supermarkets fetched successfully!')
     } catch (error) {
       console.error('Error fetching supermarkets:', error)
@@ -47,23 +50,53 @@ const ShopModule = () => {
   }
 
   useEffect(() => {
-    handleRegister()
+    handleSupermarket()
   }, [])
+
+  const filteredSupermarkets = supermarkets.filter((supermarket) =>
+    supermarket.name.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
+  const handleCardClick = (supermarketId: number) => {
+    navigate(`/shop/products/${supermarketId}`)
+  }
 
   return (
     <main style={styles.main}>
       <div style={styles.container}>
-        <div style={styles.cardContainer}>
-          {supermarkets.map((supermarket) => (
-            <div key={supermarket.supermarketId} style={styles.card}>
-              <h2 style={styles.cardTitle}>{supermarket.name}</h2>
-              <p style={styles.cardText}>
-                Supermarket ID: {supermarket.supermarketId}
-              </p>
-              <p style={styles.cardText}>Owner ID: {supermarket.ownerId}</p>
-            </div>
-          ))}
-        </div>
+        <input
+          type="text"
+          placeholder="Search supermarkets..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={styles.searchBar}
+        />
+        {loading ? ( // Display loading spinner if loading is true
+          <div style={styles.loading}>
+            <div className="loader"></div>
+            <p>Loading...</p>
+          </div>
+        ) : (
+          <div style={styles.cardContainer}>
+            {filteredSupermarkets.map((supermarket) => (
+              <div
+                key={supermarket.supermarketId}
+                style={styles.card}
+                onClick={() => handleCardClick(supermarket.supermarketId)}
+              >
+                <h2 style={styles.cardTitle}>{supermarket.name}</h2>
+                <img
+                  src={supermarket.supermarketImage}
+                  alt={supermarket.name}
+                  style={styles.cardImage}
+                />
+                <p style={styles.cardText}>
+                  {supermarket.supermarketDescription}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </main>
   )
@@ -80,12 +113,11 @@ const styles: { [key: string]: CSSProperties } = {
   container: {
     textAlign: 'center',
   },
-  mediumText: {
-    fontSize: '1.25em',
-  },
-  bigText: {
-    fontSize: '2.5em',
-    fontWeight: 'bold',
+  searchBar: {
+    width: '80%',
+    padding: '10px',
+    marginBottom: '20px',
+    fontSize: '16px',
   },
   cardContainer: {
     display: 'flex',
@@ -101,14 +133,34 @@ const styles: { [key: string]: CSSProperties } = {
     width: '200px',
     textAlign: 'left',
     boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    cursor: 'pointer',
+  },
+  cardImage: {
+    width: '100%',
+    height: 'auto',
+    borderRadius: '8px',
+    marginBottom: '10px',
   },
   cardTitle: {
-    fontSize: '1.5em',
+    fontSize: '1.25em',
+    fontWeight: 'bold',
     marginBottom: '10px',
+    textAlign: 'center',
   },
   cardText: {
     fontSize: '1em',
     marginBottom: '5px',
+    textAlign: 'center',
+  },
+  loading: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '20px',
   },
 }
 
