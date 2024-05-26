@@ -5,7 +5,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu'
-import { ShoppingCart, HomeIcon, Wallet, Star, Clock } from 'lucide-react'
+import { ShoppingCart, HomeIcon, Wallet, Star, Store, Clock } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { Switch } from '@/components/ui/switch'
@@ -21,8 +21,18 @@ const Navbar = () => {
   const daftarNavList = isAuthenticated
     ? [
         {
+          url:'/manageSupermarket',
+          name:'Manage Supermarket',
+          icon: Store,
+        },
+        {
           url: '/shop',
           name: 'Shop',
+          icon: Store,
+        },
+        {
+          url: '/keranjangbelanja',
+          name: 'Cart',
           icon: ShoppingCart,
         },
         {
