@@ -38,7 +38,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
 
     const result = await rawResult.json()
 
-    if (!(result.code === 200) && typeof window !== 'undefined') {
+    if (result.code !== 200 && typeof window !== 'undefined') {
       localStorage.removeItem('token')
     }
 
@@ -46,9 +46,9 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
   }
 
   async function login({
-    email,
-    password,
-  }: {
+                         email,
+                         password,
+                       }: {
     email: string
     password: string
   }) {
@@ -64,7 +64,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     )
 
     if (response.accessToken && typeof window !== 'undefined') {
-      localStorage.setItem('Pengguna', JSON.stringify(response))
+      window.localStorage.setItem('Pengguna', JSON.stringify(response))
       setIsAuthenticated(true)
       router.push('/')
     } else {
@@ -74,7 +74,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
 
   async function logout() {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('Pengguna')
+      window.localStorage.removeItem('Pengguna')
     }
     setIsAuthenticated(false)
     router.push('/')
@@ -84,9 +84,9 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     setIsLoading(true)
     let isAuthenticatedLocalStorage = null;
     if (typeof window !== 'undefined') {
-      isAuthenticatedLocalStorage = localStorage.getItem('token');
+      isAuthenticatedLocalStorage = window.localStorage.getItem('token');
     }
-  
+
     if (!isAuthenticatedLocalStorage) {
       setIsAuthenticated(false)
     } else {

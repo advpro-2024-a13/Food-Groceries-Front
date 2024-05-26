@@ -12,9 +12,9 @@ const ThemeContext = createContext({} as ThemeContextInterface)
 export const useThemeContext = () => useContext(ThemeContext)
 
 export const ThemeContextProvider: React.FC<ThemeContextProviderProps> = ({
-  children,
-  initialTheme,
-}) => {
+                                                                            children,
+                                                                            initialTheme,
+                                                                          }) => {
   const [theme, setTheme] = useState<ThemeType>(initialTheme || 'dark')
 
   const handleTheme = () => {
@@ -40,13 +40,15 @@ export const ThemeContextProvider: React.FC<ThemeContextProviderProps> = ({
   }, [])
 
   useEffect(() => {
-    document
-      .querySelector('html')
-      ?.classList.add(theme === 'dark' ? 'dark' : 'light')
-    return () => {
+    if (typeof window !== 'undefined') {
       document
         .querySelector('html')
-        ?.classList.remove(theme === 'dark' ? 'dark' : 'light')
+        ?.classList.add(theme === 'dark' ? 'dark' : 'light')
+      return () => {
+        document
+          .querySelector('html')
+          ?.classList.remove(theme === 'dark' ? 'dark' : 'light')
+      }
     }
   }, [theme])
 

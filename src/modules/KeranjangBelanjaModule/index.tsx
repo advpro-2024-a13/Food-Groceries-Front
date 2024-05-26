@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 type Product = {
   id: string;
@@ -111,9 +112,16 @@ const KeranjangBelanjaPage: React.FC = () => {
           ) : (
               <div style={{ marginBottom: '10px' }}>
                 <p>Products:</p>
+
                 {keranjangBelanja?.products.map((product) => (
                   <div key={product.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                    <img src={product.image} alt={product.name} style={{ width: '50px', height: '50px', marginRight: '10px' }} />
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      width={50}
+                      height={50}
+                      objectFit="cover"
+                    />
                     <div>
                       <p>{product.name}</p>
                       <p>Price: ${product.price}</p>

@@ -12,6 +12,7 @@ import {
   CardContent,
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import Image from 'next/image';
 
 interface Supermarket {
   supermarketId: number
@@ -127,10 +128,12 @@ const SupermarketDetails = () => {
     <div style={styles.container}>
       <h1 style={styles.supermarketName}>{supermarket.name}</h1>
       <div style={styles.imageContainer}>
-        <img
+        <Image
           src={supermarket.supermarketImage}
           alt={supermarket.name}
-          style={styles.image}
+          width={600}
+          height={400}
+          objectFit="cover"
         />
       </div>
       <p>{supermarket.supermarketDescription}</p>
@@ -138,10 +141,12 @@ const SupermarketDetails = () => {
         {products.map((product) => (
           <Card key={product.productId} style={styles.productCard}>
             <CardHeader>
-              <img
+              <Image
                 src={product.productImagePath}
                 alt={product.productName}
-                style={styles.productImage}
+                width={100}
+                height={100}
+                objectFit="cover"
               />
               <h2>{product.productName}</h2>
               <CardTitle>Rp.{product.productPrice}</CardTitle>

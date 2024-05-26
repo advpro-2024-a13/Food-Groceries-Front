@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
 import { Card, CardContent } from '@/components/ui/card'
+import { Pengguna } from '@/components/interface/database'
 
 type SupermarketParams = {
   supermarketId: string
@@ -49,8 +50,11 @@ const EditProductModule = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const localPengguna = JSON.parse(localStorage.getItem('Pengguna') || '{}')
-    const token = localPengguna.accessToken
+    let localPengguna: Pengguna | Record<string, never> = {};
+    if (typeof window !== 'undefined') {
+      localPengguna = JSON.parse(localStorage.getItem('Pengguna') || '{}')
+    }
+    const token = 'accessToken' in localPengguna ? localPengguna.accessToken : '';
 
     try {
       const response = await fetch(
