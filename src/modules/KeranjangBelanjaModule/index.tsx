@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -105,9 +106,9 @@ const KeranjangBelanjaPage: React.FC = () => {
             <CardTitle>Keranjang Belanja</CardTitle>
           </CardHeader>
           <CardContent>
-            {keranjangBelanja && keranjangBelanja.products.length === 0 ? (
-              <p>You haven't added anything to the cart yet.</p>
-            ) : (
+          {keranjangBelanja && keranjangBelanja.products.length === 0 ? (
+            <p>You haven&apos;t added anything to the cart yet.</p>
+          ) : (
               <div style={{ marginBottom: '10px' }}>
                 <p>Products:</p>
                 {keranjangBelanja?.products.map((product) => (
