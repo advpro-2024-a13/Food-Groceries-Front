@@ -1,4 +1,3 @@
-'use client'
 import React, { useEffect, useState, useCallback } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
@@ -14,6 +13,7 @@ const RatingPage: React.FC = () => {
   const [editingRating, setEditingRating] = useState<any>(null)
   const [newRating, setNewRating] = useState<number>(0)
   const [newReview, setNewReview] = useState<string>('')
+  const [marketId, setMarketId] = useState<string>('')
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -113,6 +113,30 @@ const RatingPage: React.FC = () => {
       })
   }
 
+  const handleAddRating = () => {
+    const data = {
+      ownerId: pengguna.id,
+      marketId: parseInt(marketId),
+      rating: newRating,
+      review: newReview,
+    }
+
+    fetch('https://a13heymartbkbhr-6yfvrprlfa-uc.a.run.app/rating/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.text())
+      .then(() => {
+        fetchRatings()
+      })
+      .catch((error) => {
+        console.error('Error adding rating:', error)
+      })
+  }
+
   return (
     <main style={styles.main}>
       <div style={styles.container}>
@@ -189,6 +213,37 @@ const RatingPage: React.FC = () => {
                 )}
               </CardContent>
             </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Add Rating</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div style={styles.formGroup}>
+                  <Label>Market ID</Label>
+                  <Input
+                    value={marketId}
+                    onChange={(e) => setMarketId(e.target.value)}
+                  />
+                </div>
+                <div style={styles.formGroup}>
+                  <Label>Rating</Label>
+                  <div className="flex">
+                    {renderStarRating(newRating, true)}
+                  </div>
+                </div>
+                <div style={styles.formGroup}>
+                  <Label>Review</Label>
+                  <Input
+                    type="text"
+                    value={newReview}
+                    onChange={(e) => setNewReview(e.target.value)}
+                  />
+                </div>
+                <div style={styles.buttonContainer}>
+                  <Button onClick={handleAddRating}>Add Rating</Button>
+                </div>
+              </CardContent>
+            </Card>
           </>
         )}
       </div>
@@ -200,12 +255,13 @@ const styles: { [key: string]: CSSProperties } = {
   main: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     height: '100vh',
     overflow: 'auto',
   },
   container: {
-    textAlign: 'center' as const,
+    textAlign: 'center',
+    marginTop: '100px',
   },
   bigText: {
     fontSize: '2.5em',
@@ -265,6 +321,11 @@ const styles: { [key: string]: CSSProperties } = {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '16px',
+  },
+  formGroup: {
+    marginBottom: '20px',
   },
 }
 
