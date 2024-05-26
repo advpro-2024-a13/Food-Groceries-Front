@@ -5,7 +5,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu'
-import { ShoppingCart, HomeIcon, Wallet, Star, Store } from 'lucide-react'
+import { ShoppingCart, HomeIcon, Wallet, Star, Store, Clock } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { Switch } from '@/components/ui/switch'
@@ -44,6 +44,11 @@ const Navbar = () => {
           url: '/rating',
           name: 'My Rating',
           icon: Star,
+        },
+        {
+          url: '/history',
+          name: 'History',
+          icon: Clock,
         },
         {
           url: '/',
