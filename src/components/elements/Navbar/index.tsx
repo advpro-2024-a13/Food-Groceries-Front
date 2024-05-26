@@ -28,6 +28,11 @@ const Navbar = () => {
         {
           url: '/shop',
           name: 'Shop',
+          icon: Store,
+        },
+        {
+          url: '/keranjangbelanja',
+          name: 'Cart',
           icon: ShoppingCart,
         },
         {

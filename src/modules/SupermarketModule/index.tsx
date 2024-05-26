@@ -11,6 +11,7 @@ import {
   CardDescription,
   CardContent,
 } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 
 interface Supermarket {
   supermarketId: number
@@ -85,6 +86,31 @@ const SupermarketDetails = () => {
     }
   }, [supermarketId])
 
+  const handleAddToCart = async (product: Product) => {
+    try {
+      const response = await fetch('https://a13heymartsmpr-tvz2de5qsa-uc.a.run.app/addProductToKeranjangBelanja', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ownerId: product.supermarketOwnerId,
+          productId: product.productId,
+          quantity: 1, // Default quantity is 1
+        }),
+      })
+      if (response.ok) {
+        toast.success(`${product.productName} added to cart successfully.`)
+      } else {
+        const data = await response.json()
+        toast.error(data.message)
+      }
+    } catch (error) {
+      console.error('Error adding product to cart:', error)
+      toast.error('Failed to add product to cart.')
+    }
+  }
+
   if (loading) {
     return <p>Loading...</p>
   }
@@ -120,6 +146,7 @@ const SupermarketDetails = () => {
               <CardDescription>{product.productDescription}</CardDescription>
               <p>{product.productQuantity}</p>
               <p>{product.productCategory}</p>
+              <Button onClick={() => handleAddToCart(product)}>Add to Cart</Button>
             </CardContent>
           </Card>
         ))}
