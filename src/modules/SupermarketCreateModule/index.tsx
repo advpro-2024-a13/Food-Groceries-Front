@@ -33,7 +33,7 @@ const CreateSupermarketPage: React.FC = () => {
         setOwnerId(null);
         setDescription('');
         setImage('');
-        router.push('/supermarket');
+        router.push('/manageSupermarket');
       })
       .catch((error) => {
         console.error('Error creating supermarket:', error);

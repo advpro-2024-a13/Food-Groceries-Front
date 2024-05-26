@@ -67,7 +67,7 @@ const EditSupermarketPage: React.FC = () => {
         // Handle error, show error message, etc.
       })
       .finally(() => {
-        router.push('/supermarket');
+        router.push('/manageSupermarket');
       });
   };
 
