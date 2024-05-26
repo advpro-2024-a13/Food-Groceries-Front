@@ -5,7 +5,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu'
-import { ShoppingCart, HomeIcon, Wallet, Star } from 'lucide-react'
+import { ShoppingCart, HomeIcon, Wallet, Star, Store } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { Switch } from '@/components/ui/switch'
@@ -23,6 +23,11 @@ const Navbar = () => {
         {
           url: '/shop',
           name: 'Shop',
+          icon: Store,
+        },
+        {
+          url: '/keranjangbelanja',
+          name: 'Cart',
           icon: ShoppingCart,
         },
         {
