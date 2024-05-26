@@ -11,6 +11,7 @@ import {
   CardDescription,
   CardContent,
 } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 
 interface Supermarket {
   supermarketId: number
@@ -85,6 +86,11 @@ const SupermarketDetails = () => {
     }
   }, [supermarketId])
 
+  const handleAddToCart = (product: Product) => {
+    // Placeholder function for adding a product to the cart
+    console.log(`Added ${product.productName} to cart`);
+  };
+
   if (loading) {
     return <p>Loading...</p>
   }
@@ -120,6 +126,7 @@ const SupermarketDetails = () => {
               <CardDescription>{product.productDescription}</CardDescription>
               <p>{product.productQuantity}</p>
               <p>{product.productCategory}</p>
+              <Button onClick={() => handleAddToCart(product)}>Add to Cart</Button> {/* Add this line */}
             </CardContent>
           </Card>
         ))}
