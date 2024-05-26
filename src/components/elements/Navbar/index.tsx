@@ -21,6 +21,11 @@ const Navbar = () => {
   const daftarNavList = isAuthenticated
     ? [
         {
+          url: '/',
+          name: 'Home',
+          icon: HomeIcon,
+        },
+        {
           url: '/shop',
           name: 'Shop',
           icon: ShoppingCart,
@@ -29,11 +34,6 @@ const Navbar = () => {
           url: '/balance',
           name: 'Balance',
           icon: Wallet,
-        },
-        {
-          url: '/',
-          name: 'Home',
-          icon: HomeIcon,
         },
       ]
     : [
