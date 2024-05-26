@@ -7,7 +7,7 @@ import {
   ModalFooter,
 } from '@/components/ui/modal'
 import { Button } from '@/components/ui/button'
-import Dropdown from '@/components/ui/dropdown' // Import the new Dropdown component
+import Dropdown from '@/components/ui/dropdown'
 import { CSSProperties } from 'react'
 
 const HistoryPage: React.FC = () => {

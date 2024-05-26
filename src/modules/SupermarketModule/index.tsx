@@ -32,7 +32,11 @@ interface Product {
 }
 
 const customFetch = async (url: string, options: RequestInit) => {
-  const token = localStorage.getItem('token')
+  let token;
+  if (typeof window !== 'undefined') {
+    token = localStorage.getItem('token');
+  }
+
   const headers = {
     ...options.headers,
     ...(token && { Authorization: `Bearer ${token}` }),

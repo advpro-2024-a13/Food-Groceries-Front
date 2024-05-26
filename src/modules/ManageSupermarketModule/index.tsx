@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Button } from '@/components/ui/button';
@@ -17,12 +18,12 @@ const ManageSupermarketPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [pengguna, setPengguna] = useState<any>({})
 
-
   useEffect(() => {
+    let localPengguna = {};
     if (typeof window !== 'undefined') {
-        const localPengguna = JSON.parse(localStorage.getItem('Pengguna') || '{}');
-        setPengguna(localPengguna)
-        }
+      localPengguna = JSON.parse(localStorage.getItem('Pengguna') || '{}');
+    }
+    setPengguna(localPengguna);
     fetch('https://a13heymartsmpr-tvz2de5qsa-uc.a.run.app/supermarket')
       .then((response) => response.json())
       .then((data) => {
@@ -37,7 +38,7 @@ const ManageSupermarketPage: React.FC = () => {
       });
   }, []);
 
-  const role = pengguna.role
+  const role = pengguna ? pengguna.role : null;
 
   const handleDelete = (id: number) => {
     fetch(`https://a13heymartsmpr-tvz2de5qsa-uc.a.run.app/supermarket/delete/${id}`, {

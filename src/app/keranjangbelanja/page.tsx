@@ -1,5 +1,5 @@
 'use client'
-import KeranjangBelanjaModule from '../../modules/KeranjangBelanjaModule'
+import KeranjangBelanjaModule from '@/modules/KeranjangBelanjaModule'
 import React from 'react'
 
 const KeranjangBelanjaPage = () => {

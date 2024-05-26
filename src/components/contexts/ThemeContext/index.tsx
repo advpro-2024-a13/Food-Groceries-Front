@@ -18,20 +18,24 @@ export const ThemeContextProvider: React.FC<ThemeContextProviderProps> = ({
   const [theme, setTheme] = useState<ThemeType>(initialTheme || 'dark')
 
   const handleTheme = () => {
-    localStorage.setItem('theme', theme === 'dark' ? 'light' : 'dark')
-    setTheme(theme === 'dark' ? 'light' : 'dark')
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('theme', theme === 'dark' ? 'light' : 'dark')
+      setTheme(theme === 'dark' ? 'light' : 'dark')
+    }
   }
 
   useEffect(() => {
-    const localTheme = localStorage.getItem('theme')
-    if (localTheme !== null) {
-      setTheme(localTheme as ThemeType)
-    } else {
-      setTheme(
-        window.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'dark'
-          : 'light'
-      )
+    if (typeof window !== 'undefined') {
+      const localTheme = localStorage.getItem('theme')
+      if (localTheme !== null) {
+        setTheme(localTheme as ThemeType)
+      } else {
+        setTheme(
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light'
+        )
+      }
     }
   }, [])
 

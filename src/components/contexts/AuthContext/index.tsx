@@ -26,7 +26,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
   ): Promise<Pengguna> {
     const headers = { authorization: '', 'Content-Type': 'application/json' }
 
-    if (options.isAuthorized) {
+    if (options.isAuthorized && typeof window !== 'undefined') {
       const token = localStorage.getItem('token')
       headers['authorization'] = `Bearer ${token}`
     }
@@ -38,7 +38,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
 
     const result = await rawResult.json()
 
-    if (!(result.code === 200)) {
+    if (!(result.code === 200) && typeof window !== 'undefined') {
       localStorage.removeItem('token')
     }
 
@@ -63,7 +63,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
       }
     )
 
-    if (response.accessToken) {
+    if (response.accessToken && typeof window !== 'undefined') {
       localStorage.setItem('Pengguna', JSON.stringify(response))
       setIsAuthenticated(true)
       router.push('/')
@@ -73,15 +73,20 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
   }
 
   async function logout() {
-    localStorage.removeItem('token')
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('Pengguna')
+    }
     setIsAuthenticated(false)
     router.push('/')
   }
 
   useEffect(() => {
     setIsLoading(true)
-    const isAuthenticatedLocalStorage = window.localStorage.getItem('token')
-
+    let isAuthenticatedLocalStorage = null;
+    if (typeof window !== 'undefined') {
+      isAuthenticatedLocalStorage = localStorage.getItem('token');
+    }
+  
     if (!isAuthenticatedLocalStorage) {
       setIsAuthenticated(false)
     } else {
