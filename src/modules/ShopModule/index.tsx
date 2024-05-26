@@ -1,7 +1,15 @@
+'use client'
 import React, { useEffect, useState, CSSProperties } from 'react'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from '@/components/ui/card'
 
 interface Supermarket {
   supermarketId: number
@@ -32,6 +40,7 @@ const ShopModule = () => {
   const [supermarkets, setSupermarkets] = useState<Supermarket[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
+  const router = useRouter()
 
   const handleSupermarket = async (e?: React.FormEvent<HTMLFormElement>) => {
     if (e) e.preventDefault()
@@ -56,9 +65,14 @@ const ShopModule = () => {
     supermarket.name.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
+  const handleCardClick = (supermarketId: string) => {
+    router.push(`/shop/supermarkets/${supermarketId}`)
+  }
+
   return (
     <main style={styles.main}>
       <div style={styles.container}>
+        <h1 style={styles.heading}>Supermarkets</h1>
         <input
           type="text"
           placeholder="Search supermarkets..."
@@ -74,22 +88,28 @@ const ShopModule = () => {
         ) : (
           <div style={styles.cardContainer}>
             {filteredSupermarkets.map((supermarket) => (
-              <Link
+              <Card
                 key={supermarket.supermarketId}
-                href={`/shop/products/${supermarket.supermarketId}`}
+                className="card"
+                onClick={() =>
+                  handleCardClick(supermarket.supermarketId.toString())
+                }
+                style={styles.card}
               >
-                <div style={styles.card}>
-                  <h2 style={styles.cardTitle}>{supermarket.name}</h2>
+                <CardHeader>
+                  <CardTitle>{supermarket.name}</CardTitle>
+                </CardHeader>
+                <CardContent>
                   <img
                     src={supermarket.supermarketImage}
                     alt={supermarket.name}
                     style={styles.cardImage}
                   />
-                  <p style={styles.cardText}>
+                  <CardDescription>
                     {supermarket.supermarketDescription}
-                  </p>
-                </div>
-              </Link>
+                  </CardDescription>
+                </CardContent>
+              </Card>
             ))}
           </div>
         )}
@@ -105,9 +125,18 @@ const styles: { [key: string]: CSSProperties } = {
     alignItems: 'center',
     height: '100vh',
     overflow: 'auto',
+    paddingTop: '50px',
   },
   container: {
     textAlign: 'center',
+    width: '100%',
+    maxWidth: '1000px',
+    margin: '0 auto',
+    padding: '0 20px',
+  },
+  heading: {
+    fontSize: '2em',
+    marginBottom: '20px',
   },
   searchBar: {
     width: '80%',
@@ -139,17 +168,6 @@ const styles: { [key: string]: CSSProperties } = {
     height: 'auto',
     borderRadius: '8px',
     marginBottom: '10px',
-  },
-  cardTitle: {
-    fontSize: '1.25em',
-    fontWeight: 'bold',
-    marginBottom: '10px',
-    textAlign: 'center',
-  },
-  cardText: {
-    fontSize: '1em',
-    marginBottom: '5px',
-    textAlign: 'center',
   },
   loading: {
     display: 'flex',
