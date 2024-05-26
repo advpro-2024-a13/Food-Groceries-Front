@@ -5,7 +5,7 @@ modules_path = path.join('src', 'modules')
 
 for root, dirs, files in walk(start_directory):
     for file in files:
-        if file.endswith('.tsx') and file != 'layout.tsx' and not (root == start_directory and file == 'page.tsx'):
+        if file.endswith('.tsx') and file != 'layout.tsx' and not (root == start_directory and file == 'index.tsx'):
             file_path = path.join(root, file)
             file_path = file_path.removeprefix(start_directory).removeprefix('\\')
             
